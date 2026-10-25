@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrator - E-Katalog UMKM Paseban Kawis</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-body">
+
+    <!-- Auth Guard Script (Harus di awal untuk mencegah unauthorized render) -->
+    <script>
+        const authToken = localStorage.getItem('umkm_admin_token');
+        if (!authToken) {
+            window.location.replace('login.html');
+        }
+    </script>
+
+    <!-- TOPBAR ADMIN -->
+    <header class="admin-topbar">
+        <div class="admin-topbar-container">
+            <div class="topbar-left">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">🌿</div>
+                    <div class="logo-text">
+                        <span class="brand-title">Paseban Kawis</span>
+                        <span class="brand-subtitle">Panel Administrator</span>
+                    </div>
+                </a>
+                <span class="badge-admin-status">🟢 Sistem Online</span>
+            </div>
+
+            <div class="topbar-right">
+                <a href="index.html" target="_blank" class="btn-topbar-link" title="Buka website publik di tab baru">
+                    🌐 Buka Website
+                </a>
+                <a href="ekatalog.html" target="_blank" class="btn-topbar-link">
+                    🛍️ E-Katalog
+                </a>
+                <div class="admin-user-pill">
+                    <span class="admin-avatar">👤</span>
+                    <span id="adminGreeting" class="admin-name">Admin</span>
+                </div>
+                <button type="button" id="btnLogout" class="btn-logout-nav" title="Keluar dari akun admin">
+                    🚪 Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA DASHBOARD -->
+    <main class="admin-main-container">
+        
+        <!-- HEADER DASHBOARD & NOTIFIKASI -->
+        <section class="admin-header-section">
+            <div>
+                <h1 class="admin-page-title">Pusat Kendali UMKM Desa</h1>
+                <p class="admin-page-desc">Kelola persetujuan verifikasi pendaftaran UMKM dan etalase produk E-Katalog secara real-time.</p>
+            </div>
+            <div class="header-action-group">
+                <button type="button" class="btn-primary" onclick="openAddProductModal()">
+                    ➕ Tambah Produk E-Katalog
+                </button>
+                <button type="button" class="btn-secondary" onclick="loadAllAdminData()">
+                    🔄 Refresh Data
+                </button>
+            </div>
+        </section>
+
+        <!-- BANNER NOTIFIKASI ALERT DINAMIS -->
+        <div id="adminGlobalAlert" class="alert-box d-none" role="alert"></div>
+
+        <!-- STATISTIK KARTU (GRID METRICS) -->
+        <section class="admin-metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon bg-green-light">🛍️</div>
+                <div class="metric-content">
+                    <span class="metric-label">Total Produk E-Katalog</span>
+                    <h3 id="statTotalProduk" class="metric-value">-</h3>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon bg-blue-light">🏢</div>
+                <div class="metric-content">
+                    <span class="metric-label">Total UMKM Terdaftar</span>
+                    <h3 id="statTotalUmkm" class="metric-value">-</h3>
+                </div>
+            </div>
+
+            <div class="metric-card card-alert">
+                <div class="metric-icon bg-orange-light">⏳</div>
+                <div class="metric-content">
+                    <span class="metric-label">Perlu Verifikasi (Pending)</span>
+                    <h3 id="statPendingUmkm" class="metric-value">-</h3>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon bg-purple-light">🏷️</div>
+                <div class="metric-content">
+                    <span class="metric-label">Kategori Produk</span>
+                    <h3 id="statTotalKategori" class="metric-value">-</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABEL 1: DAFTAR PENDAFTARAN UMKM -->
+        <section class="admin-card-section">
+            <div class="section-card-header">
+                <div class="header-title-box">
+                    <h2>📋 Pengajuan Pendaftaran UMKM</h2>
+                    <p>Daftar permohonan kemitraan UMKM yang masuk dari formulir website.</p>
+                </div>
+                <div class="header-filter-box">
+                    <label for="filterUmkmStatus">Filter Status:</label>
+                    <select id="filterUmkmStatus" onchange="renderUmkmTable()">
+                        <option value="semua">Semua Status</option>
+                        <option value="pending" selected>Menunggu (Pending)</option>
+                        <option value="disetujui">Disetujui</option>
+                        <option value="ditolak">Ditolak</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Pemilik</th>
+                            <th>Nama Usaha UMKM</th>
+                            <th>Kategori</th>
+                            <th>Kontak & Email</th>
+                            <th>Status</th>
+                            <th>Aksi Kelola</th>
+                        </tr>
+                    </thead>
+                    <tbody id="umkmTableBody">
+                        <tr>
+                            <td colspan="7" class="text-center py-4">Memuat data pendaftaran...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TABEL 2: DAFTAR PRODUK E-KATALOG -->
+        <section class="admin-card-section">
+            <div class="section-card-header">
+                <div class="header-title-box">
+                    <h2>📦 Katalog Produk Aktif & Etalase</h2>
+                    <p>Kelola visibilitas, informasi harga, stok, dan data produk yang tayang ke publik.</p>
+                </div>
+                <div class="header-filter-box">
+                    <button type="button" class="btn-sm btn-primary" onclick="openAddProductModal()">
+                        ➕ Produk Baru
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-data-table">
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Status Publik</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produkTableBody">
+                        <tr>
+                            <td colspan="7" class="text-center py-4">Memuat data produk katalog...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL TAMBAH PRODUK BARU -->
+    <div id="addProductModal" class="modal-overlay d-none">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>➕ Tambah Produk E-Katalog Baru</h3>
+                <button type="button" class="btn-close-modal" onclick="closeAddProductModal()">&times;</button>
+            </div>
+            <form id="formAddProduct" onsubmit="handleCreateProduct(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="prodName">Nama Produk *</label>
+                        <input type="text" id="prodName" required placeholder="Contoh: Keripik Pisang Madu">
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="prodKategori">Kategori Produk *</label>
+                            <select id="prodKategori" required>
+                                <option value="1">1 - Kuliner & Makanan Olahan</option>
+                                <option value="2">2 - Kerajinan Tangan & Kriya</option>
+                                <option value="3">3 - Hasil Pertanian & Perkebunan</option>
+                                <option value="4">4 - Jasa & Usaha Kreatif</option>
+                                <option value="5">5 - Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prodHarga">Harga (Rp) *</label>
+                            <input type="number" id="prodHarga" required placeholder="Contoh: 25000" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="prodStok">Stok Awal</label>
+                            <input type="number" id="prodStok" value="50" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="prodFoto">URL Foto Produk</label>
+                            <input type="text" id="prodFoto" value="images/hero-display.jpg" placeholder="images/hero-display.jpg">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prodDeskripsi">Deskripsi Produk (AI generated atau manual)</label>
+                        <textarea id="prodDeskripsi" rows="3" placeholder="Tuliskan deskripsi keunggulan produk..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeAddProductModal()">Batal</button>
+                    <button type="submit" id="btnSaveProd" class="btn-primary">Simpan ke Katalog</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT DASHBOARD LOGIC -->
+    <script>
+        // Sesi User Admin
+        try {
+            const user = JSON.parse(localStorage.getItem('umkm_admin_user') || '{}');
+            if (user.nama_lengkap || user.username) {
+                document.getElementById('adminGreeting').textContent = user.nama_lengkap || user.username;
+            }
+        } catch(e) {}
+
+        // Logout
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            if (confirm('Apakah Anda yakin ingin keluar dari Panel Admin?')) {
+                localStorage.removeItem('umkm_admin_token');
+                localStorage.removeItem('umkm_admin_user');
+                window.location.href = 'login.html';
+            }
+        });
+
+        // State Data Lokal
+        let allUmkmData = [];
+        let allProdukData = [];
+
+        function showGlobalAlert(msg, isSuccess = true) {
+            const box = document.getElementById('adminGlobalAlert');
+            box.className = `alert-box ${isSuccess ? 'alert-success' : 'alert-danger'}`;
+            box.textContent = msg;
+            box.classList.remove('d-none');
+            setTimeout(() => { box.classList.add('d-none'); }, 4000);
+        }
+
+        // 1. Load Statistik
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/admin/stats');
+                const result = await res.json();
+                if (result.success && result.data) {
+                    document.getElementById('statTotalProduk').textContent = result.data.total_produk || 0;
+                    document.getElementById('statTotalUmkm').textContent = result.data.total_umkm || 0;
+                    document.getElementById('statPendingUmkm').textContent = result.data.umkm_pending || 0;
+                    document.getElementById('statTotalKategori').textContent = result.data.total_kategori || 0;
+                }
+            } catch (err) {
+                console.error('Error loadStats:', err);
+            }
+        }
+
+        // 2. Load UMKM
+        async function loadUmkm() {
+            try {
+                const res = await fetch('/api/umkm');
+                const result = await res.json();
+                if (result.success && Array.isArray(result.data)) {
+                    allUmkmData = result.data;
+                    renderUmkmTable();
+                }
+            } catch (err) {
+                console.error('Error loadUmkm:', err);
+            }
+        }
+
+        function renderUmkmTable() {
+            const filter = document.getElementById('filterUmkmStatus').value;
+            const tbody = document.getElementById('umkmTableBody');
+
+            let filtered = allUmkmData;
+            if (filter !== 'semua') {
+                filtered = allUmkmData.filter(u => u.status_verifikasi === filter);
+            }
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Tidak ada data pendaftaran dengan status "${filter}".</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((u, idx) => {
+                let badgeClass = 'badge-pending';
+                let statusLabel = 'Menunggu';
+                if (u.status_verifikasi === 'disetujui') {
+                    badgeClass = 'badge-approved';
+                    statusLabel = 'Disetujui';
+                } else if (u.status_verifikasi === 'ditolak') {
+                    badgeClass = 'badge-rejected';
+                    statusLabel = 'Ditolak';
+                }
+
+                return `
+                    <tr>
+                        <td><strong>#${idx + 1}</strong></td>
+                        <td><strong>${escapeHtml(u.nama_pemilik)}</strong></td>
+                        <td>${escapeHtml(u.nama_umkm)}</td>
+                        <td><span class="badge-tag-sm">${escapeHtml(u.nama_kategori || 'Umum')}</span></td>
+                        <td>
+                            <div>📞 ${escapeHtml(u.telepon)}</div>
+                            <small class="text-muted">✉️ ${escapeHtml(u.email)}</small>
+                        </td>
+                        <td><span class="status-pill ${badgeClass}">${statusLabel}</span></td>
+                        <td>
+                            <div class="action-btn-group">
+                                ${u.status_verifikasi !== 'disetujui' ? `
+                                    <button class="btn-action btn-approve" onclick="updateUmkmStatus(${u.id_umkm}, 'disetujui')" title="Setujui UMKM">✓ Setujui</button>
+                                ` : ''}
+                                ${u.status_verifikasi !== 'ditolak' ? `
+                                    <button class="btn-action btn-reject" onclick="updateUmkmStatus(${u.id_umkm}, 'ditolak')" title="Tolak UMKM">✕ Tolak</button>
+                                ` : ''}
+                                <button class="btn-action btn-delete" onclick="deleteUmkm(${u.id_umkm})" title="Hapus Data">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function updateUmkmStatus(id, newStatus) {
+            try {
+                const res = await fetch(`/api/umkm/${id}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showGlobalAlert(data.message, true);
+                    await loadStats();
+                    await loadUmkm();
+                } else {
+                    showGlobalAlert(data.message || 'Gagal mengubah status', false);
+                }
+            } catch (err) {
+                showGlobalAlert('Terjadi kesalahan koneksi server.', false);
+            }
+        }
+
+        async function deleteUmkm(id) {
+            if (!confirm('Yakin ingin menghapus data UMKM ini secara permanen?')) return;
+            try {
+                const res = await fetch(`/api/umkm/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showGlobalAlert(data.message, true);
+                    await loadStats();
+                    await loadUmkm();
+                } else {
+                    showGlobalAlert(data.message || 'Gagal menghapus UMKM', false);
+                }
+            } catch (err) {
+                showGlobalAlert('Terjadi kesalahan koneksi server.', false);
+            }
+        }
+
+        // 3. Load Produk E-Katalog
+        async function loadProduk() {
+            try {
+                const res = await fetch('/api/produk');
+                const result = await res.json();
+                if (result.success && Array.isArray(result.data)) {
+                    allProdukData = result.data;
+                    renderProdukTable();
+                }
+            } catch (err) {
+                console.error('Error loadProduk:', err);
+            }
+        }
+
+        function renderProdukTable() {
+            const tbody = document.getElementById('produkTableBody');
+            if (allProdukData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Belum ada produk di database.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = allProdukData.map(p => {
+                const isAktif = p.status_aktif == 1;
+                const formatRupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(p.harga);
+
+                return `
+                    <tr>
+                        <td>
+                            <img src="${escapeHtml(p.foto_produk || 'images/hero-display.jpg')}" alt="Foto" class="table-thumb" onerror="this.src='images/hero-display.jpg'">
+                        </td>
+                        <td>
+                            <strong>${escapeHtml(p.nama_produk)}</strong>
+                            <div class="text-muted small">${escapeHtml(p.nama_umkm || 'UMKM Paseban')}</div>
+                        </td>
+                        <td><span class="badge-tag-sm">${escapeHtml(p.nama_kategori || 'Umum')}</span></td>
+                        <td><strong>${formatRupiah}</strong></td>
+                        <td>${p.stok} unit</td>
+                        <td>
+                            <span class="status-pill ${isAktif ? 'badge-approved' : 'badge-rejected'}">
+                                ${isAktif ? '🟢 Tayang' : '⚪ Nonaktif'}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-btn-group">
+                                <button class="btn-action ${isAktif ? 'btn-reject' : 'btn-approve'}" onclick="toggleProdukStatus(${p.id_produk}, ${!isAktif})">
+                                    ${isAktif ? 'Sembunyikan' : 'Aktifkan'}
+                                </button>
+                                <button class="btn-action btn-delete" onclick="deleteProduk(${p.id_produk})" title="Hapus Produk">
+                                    🗑️
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function toggleProdukStatus(id, newStatus) {
+            try {
+                const res = await fetch(`/api/produk/${id}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status_aktif: newStatus })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showGlobalAlert(data.message, true);
+                    await loadProduk();
+                } else {
+                    showGlobalAlert(data.message || 'Gagal mengubah status produk', false);
+                }
+            } catch (err) {
+                showGlobalAlert('Terjadi kesalahan koneksi server.', false);
+            }
+        }
+
+        async function deleteProduk(id) {
+            if (!confirm('Yakin ingin menghapus produk ini dari E-Katalog?')) return;
+            try {
+                const res = await fetch(`/api/produk/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showGlobalAlert(data.message, true);
+                    await loadStats();
+                    await loadProduk();
+                } else {
+                    showGlobalAlert(data.message || 'Gagal menghapus produk', false);
+                }
+            } catch (err) {
+                showGlobalAlert('Terjadi kesalahan koneksi server.', false);
+            }
+        }
+
+        // Modal Produk
+        function openAddProductModal() {
+            document.getElementById('addProductModal').classList.remove('d-none');
+        }
+
+        function closeAddProductModal() {
+            document.getElementById('addProductModal').classList.add('d-none');
+            document.getElementById('formAddProduct').reset();
+        }
+
+        async function handleCreateProduct(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSaveProd');
+            btn.disabled = true;
+            btn.textContent = 'Menyimpan...';
+
+            const payload = {
+                nama_produk: document.getElementById('prodName').value.trim(),
+                id_kategori: parseInt(document.getElementById('prodKategori').value, 10),
+                harga: parseFloat(document.getElementById('prodHarga').value),
+                stok: parseInt(document.getElementById('prodStok').value, 10) || 10,
+                foto_produk: document.getElementById('prodFoto').value.trim() || 'images/hero-display.jpg',
+                deskripsi_ai: document.getElementById('prodDeskripsi').value.trim(),
+                id_umkm: 1
+            };
+
+            try {
+                const res = await fetch('/api/produk', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showGlobalAlert('Produk baru berhasil disimpan dan tayang di E-Katalog!', true);
+                    closeAddProductModal();
+                    await loadStats();
+                    await loadProduk();
+                } else {
+                    showGlobalAlert(data.message || 'Gagal menambah produk', false);
+                }
+            } catch (err) {
+                showGlobalAlert('Terjadi gangguan jaringan.', false);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Simpan ke Katalog';
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return String(text).replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function loadAllAdminData() {
+            loadStats();
+            loadUmkm();
+            loadProduk();
+        }
+
+        // Panggil saat halaman dibuka
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAllAdminData();
+        });
+    </script>
+</body>
+</html>

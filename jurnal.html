@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Informasi & Analisis Jurnal - UMKM Desa Paseban Kawis</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- HEADER & NAVIGASI -->
+    <header class="site-header">
+        <div class="navbar-container">
+            <!-- LOGO WEBSITE -->
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🌿</div>
+                <div class="logo-text">
+                    <span class="brand-title">Paseban Kawis</span>
+                    <span class="brand-subtitle">UMKM & AI Center</span>
+                </div>
+            </a>
+
+            <!-- MENU NAVIGASI UTAMA -->
+            <nav class="nav-menu">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Beranda</a></li>
+                    <li><a href="ekatalog.html" class="nav-link">E-Katalog</a></li>
+                    <li><a href="#about" class="nav-link active">Ringkasan Jurnal</a></li>
+                    <li><a href="#kekuatan" class="nav-link">Kekuatan</a></li>
+                    <li><a href="#kekurangan" class="nav-link">Kekurangan</a></li>
+                    <li><a href="#anggota" class="nav-link">Anggota</a></li>
+                </ul>
+            </nav>
+
+            <!-- ELEMEN NAVIGASI LAINNYA -->
+            <div class="nav-extra">
+                <form class="search-form" onsubmit="event.preventDefault();">
+                    <input type="text" placeholder="Cari..." aria-label="Cari topik">
+                    <button type="submit" aria-label="Cari">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </form>
+                <a href="login.html" class="nav-btn-admin" title="Panel Masuk Administrator">
+                    🔐 Login Admin
+                </a>
+            </div>
+        </div>
+
+        <!-- HERO BANNER KHUSUS HALAMAN JURNAL -->
+        <div class="hero-section">
+            <div class="hero-grid">
+                <!-- Sisi Kiri: Teks Informasi -->
+                <div class="hero-text">
+                    <span class="badge-tag">📚 Laporan & Analisis Akademik</span>
+                    <h1>Informasi & Kajian Jurnal Ilmiah</h1>
+                    <p>
+                        Dokumentasi lengkap mengenai ringkasan jurnal, metadata publikasi, analisis kekuatan dan kekurangan penerapan AI serta E-Katalog pada UMKM Desa Paseban Kawis.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#about" class="btn-hero-primary">Baca Ringkasan</a>
+                        <a href="index.html" class="btn-hero-secondary">&larr; Kembali ke Beranda</a>
+                    </div>
+                </div>
+
+                <!-- Sisi Kanan: Media Ilustrasi -->
+                <div class="hero-media">
+                    <div class="hero-image-wrapper">
+                        <img src="images/about-umkm.jpg" alt="Pemberdayaan UMKM Desa Paseban Kawis" class="hero-img">
+                        <div class="card-badge">Jurnal 2025</div>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat-item">
+                            <span class="stat-num">5 Orang</span>
+                            <span class="stat-label">Tim Penyusun</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">AI + Web</span>
+                            <span class="stat-label">Topik Utama</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA HALAMAN JURNAL -->
+    <main>
+
+        <!-- 1. RINGKASAN JURNAL & METADATA -->
+        <section id="about" class="decorated-section">
+            <div class="section-ornament"></div>
+            <span class="section-badge">📌 Ringkasan Jurnal</span>
+
+            <div class="about-grid">
+                <div class="about-text">
+                    <article>
+                        <h3>
+                            Pemanfaatan Aplikasi AI dan Website E-Katalog
+                            untuk Digitalisasi UMKM Desa Paseban Kawis
+                        </h3>
+
+                        <p>
+                            Jurnal ini membahas pemanfaatan teknologi digital,
+                            khususnya aplikasi Artificial Intelligence (AI) dan
+                            website E-Katalog, untuk membantu proses digitalisasi
+                            Usaha Mikro, Kecil, dan Menengah (UMKM) di Desa
+                            Paseban Kawis.
+                        </p>
+
+                        <p>
+                            Pemanfaatan teknologi tersebut bertujuan untuk
+                            membantu pelaku UMKM dalam memperkenalkan produk,
+                            meningkatkan informasi mengenai produk, serta
+                            memperluas jangkauan pemasaran melalui media digital.
+                        </p>
+
+                        <!-- METADATA INFORMASI JURNAL -->
+                        <div class="info-box">
+                            <div class="info-box-header">
+                                <span>📄 Metadata Informasi Jurnal</span>
+                            </div>
+                            <ul class="meta-list">
+                                <li>
+                                    <strong>Judul:</strong>
+                                    Pemanfaatan Aplikasi AI dan Website E-Katalog untuk Digitalisasi UMKM Desa Paseban Kawis
+                                </li>
+                                <li>
+                                    <strong>Penulis:</strong>
+                                    Nurul Hadist, Abdurrohman Qoim Haqqi Muhammad, Muhammad Rafi Kurniawan, Keysha Kinanti A., Yudha Alif Auliya
+                                </li>
+                                <li>
+                                    <strong>Tahun Terbit:</strong>
+                                    2025
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Gambar Pendukung -->
+                <div class="about-media">
+                    <img src="images/about-umkm.jpg" alt="Pemberdayaan UMKM Desa Paseban Kawis" class="section-img tilt-effect">
+                    <div class="image-caption">
+                        <span>💡 Implementasi AI & E-Katalog untuk Kemajuan Desa Paseban Kawis</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. KEKUATAN / KELEBIHAN JURNAL -->
+        <section id="kekuatan" class="decorated-section">
+            <div class="section-ornament"></div>
+            <span class="section-badge success-badge">💪 Analisis Kekuatan (Kelebihan)</span>
+            <h2>Kekuatan Jurnal</h2>
+
+            <p class="section-intro">
+                Berikut merupakan keunggulan dan kekuatan utama dari jurnal penelitian digitalisasi UMKM:
+            </p>
+
+            <div class="custom-check-grid">
+                <div class="check-card">
+                    <div class="check-icon">✅</div>
+                    <div class="check-text">
+                        <strong>Isu Sangat Relevan:</strong> Mengangkat permasalahan nyata mengenai digitalisasi UMKM desa di era modern.
+                    </div>
+                </div>
+
+                <div class="check-card">
+                    <div class="check-icon">🤖</div>
+                    <div class="check-text">
+                        <strong>Solusi Berbasis AI:</strong> Memanfaatkan teknologi Artificial Intelligence sebagai alat efisiensi pemasaran.
+                    </div>
+                </div>
+
+                <div class="check-card">
+                    <div class="check-icon">🌐</div>
+                    <div class="check-text">
+                        <strong>E-Katalog Terintegrasi:</strong> Mempermudah promosi produk lokal secara transparan dan luas.
+                    </div>
+                </div>
+
+                <div class="check-card">
+                    <div class="check-icon">📊</div>
+                    <div class="check-text">
+                        <strong>Pemasaran Efektif:</strong> Membantu percepatan penyampaian informasi produk kepada calon pembeli.
+                    </div>
+                </div>
+
+                <div class="check-card full-width-card">
+                    <div class="check-icon">🌱</div>
+                    <div class="check-text">
+                        <strong>Manfaat Nyata Masyarakat:</strong> Memiliki aplikasi praktis yang berdampak langsung pada perekonomian UMKM Desa.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. KEKURANGAN JURNAL -->
+        <section id="kekurangan" class="decorated-section">
+            <div class="section-ornament"></div>
+            <span class="section-badge warning-badge">⚠️ Analisis Kekurangan (Keterbatasan)</span>
+            <h2>Kekurangan Jurnal</h2>
+
+            <p class="section-intro">
+                Beberapa aspek keterbatasan dan potensi evaluasi perbaikan untuk pengembangan ke depan:
+            </p>
+
+            <div class="custom-warning-grid">
+                <div class="warning-card">
+                    <div class="warning-icon">📍</div>
+                    <div class="warning-text">
+                        <strong>Skala Lokasi Terbatas:</strong> Ruang lingkup penelitian saat ini masih berfokus spesifik di Desa Paseban Kawis.
+                    </div>
+                </div>
+
+                <div class="warning-card">
+                    <div class="warning-icon">⚙️</div>
+                    <div class="warning-text">
+                        <strong>Pengembangan Fitur:</strong> Sistem dapat ditingkatkan lagi agar mencakup lebih banyak fitur digital canggih.
+                    </div>
+                </div>
+
+                <div class="warning-card">
+                    <div class="warning-icon">🎓</div>
+                    <div class="warning-text">
+                        <strong>Literasi Digital:</strong> Penggunaan AI memerlukan pendampingan berkelanjutan bagi pelaku UMKM.
+                    </div>
+                </div>
+
+                <div class="warning-card">
+                    <div class="warning-icon">🔄</div>
+                    <div class="warning-text">
+                        <strong>Pemeliharaan Data:</strong> Website E-Katalog butuh pembaruan stok dan informasi produk secara berkala.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. NAMA ANGGOTA KELOMPOK -->
+        <section id="anggota" class="decorated-section">
+            <div class="section-ornament"></div>
+            <div class="section-header">
+                <span class="section-badge info-badge">👥 Tim Penyusun / Kelompok 2</span>
+                <h2>Anggota Kelompok</h2>
+                <p>Daftar anggota kelompok penyusun analisis jurnal dan website.</p>
+            </div>
+
+            <div class="anggota-grid">
+                <div class="anggota-card tilt-effect">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-info">
+                        <h3>Syera Silvia Erby</h3>
+                        <span class="nim-badge">NIM: 20240140222</span>
+                    </div>
+                </div>
+
+                <div class="anggota-card tilt-effect">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-info">
+                        <h3>Vania Azharia</h3>
+                        <span class="nim-badge">NIM: 20240140257</span>
+                    </div>
+                </div>
+
+                <div class="anggota-card tilt-effect">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-info">
+                        <h3>Shafa Salsabila Ramadhani</h3>
+                        <span class="nim-badge">NIM: 20240140208</span>
+                    </div>
+                </div>
+
+                <div class="anggota-card tilt-effect">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-info">
+                        <h3>Sekar Kinasih</h3>
+                        <span class="nim-badge">NIM: 20240140243</span>
+                    </div>
+                </div>
+
+                <div class="anggota-card tilt-effect full-width-member">
+                    <div class="member-avatar">👤</div>
+                    <div class="member-info">
+                        <h3>Vera Indriani</h3>
+                        <span class="nim-badge">NIM: 20240140155</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            &copy; 2026 | Digitalisasi UMKM Desa Paseban Kawis &bull; Halaman Analisis Jurnal
+        </p>
+    </footer>
+
+</body>
+</html>

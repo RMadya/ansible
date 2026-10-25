@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pemanfaatan AI dan Website E-Katalog UMKM Desa Paseban Kawis</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- HEADER & NAVIGASI (Menggunakan Flexbox) -->
+    <header class="site-header">
+        <div class="navbar-container">
+            <!-- LOGO WEBSITE -->
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🌿</div>
+                <div class="logo-text">
+                    <span class="brand-title">Paseban Kawis</span>
+                    <span class="brand-subtitle">UMKM & AI Center</span>
+                </div>
+            </a>
+
+            <!-- MENU NAVIGASI UTAMA -->
+            <nav class="nav-menu">
+                <ul class="nav-list">
+                    <li><a href="#beranda" class="nav-link active">Beranda</a></li>
+                    <li><a href="ekatalog.html" class="nav-link">E-Katalog</a></li>
+                    <li><a href="#kontak" class="nav-link">Pendaftaran UMKM</a></li>
+                    <li><a href="jurnal.html" class="nav-link">Laporan Jurnal &rarr;</a></li>
+                </ul>
+            </nav>
+
+            <!-- ELEMEN NAVIGASI LAINNYA -->
+            <div class="nav-extra">
+                <form class="search-form" onsubmit="event.preventDefault();">
+                    <input type="text" placeholder="Cari..." aria-label="Cari topik">
+                    <button type="submit" aria-label="Cari">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </form>
+                <a href="login.html" class="nav-btn-admin" title="Panel Masuk Administrator">
+                    🔐 Login Admin
+                </a>
+            </div>
+        </div>
+
+        <!-- HERO SECTION (Menggunakan CSS Grid dengan Gambar Pendukung) -->
+        <div class="hero-section" id="beranda">
+            <div class="hero-grid">
+                <!-- Sisi Kiri: Teks Informasi -->
+                <div class="hero-text">
+                    <span class="badge-tag">🚀 Inovasi Digital Desa 2025</span>
+                    <h1>Digitalisasi UMKM Desa Paseban Kawis</h1>
+                    <p>
+                        Pemanfaatan Aplikasi AI dan Website E-Katalog untuk mendukung kemajuan, perluasan pasar, serta efisiensi pemasaran produk UMKM lokal secara digital.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#fitur" class="btn-hero-primary">Lihat Fitur</a>
+                        <a href="jurnal.html" class="btn-hero-secondary">Baca Laporan Jurnal &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Sisi Kanan: Gambar Pendukung Hero & Stats Card -->
+                <div class="hero-media">
+                    <div class="hero-image-wrapper">
+                        <img src="images/hero-display.jpg" alt="Platform E-Katalog & AI UMKM Desa Paseban Kawis" class="hero-img">
+                        <div class="card-badge">E-Katalog Active</div>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat-item">
+                            <span class="stat-num">100+</span>
+                            <span class="stat-label">Produk UMKM</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">AI Powered</span>
+                            <span class="stat-label">Deskripsi Otomatis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- KONTEN UTAMA -->
+    <main>
+
+        <!-- KARTU BANNER PENGANTAR MENUJU HALAMAN JURNAL -->
+        <section class="decorated-section journal-preview-banner">
+            <div class="section-ornament"></div>
+            <div class="journal-preview-grid">
+                <div class="journal-preview-text">
+                    <span class="section-badge">📄 Publikasi Ilmiah Terpisah</span>
+                    <h2>Ringkasan, Kajian & Metadata Jurnal</h2>
+                    <p>
+                        Seluruh ringkasan jurnal, metadata publikasi, analisis kekuatan & kekurangan, serta profil anggota tim peneliti telah dipindahkan ke halaman khusus.
+                    </p>
+                    <a href="jurnal.html" class="btn-hero-primary" style="display: inline-block; margin-top: 8px;">
+                        Buka Halaman Jurnal &rarr;
+                    </a>
+                </div>
+                <div class="journal-preview-stats">
+                    <div class="preview-stat-card">
+                        <span class="preview-stat-icon">📖</span>
+                        <strong>Ringkasan & Metadata</strong>
+                        <p>Kajian lengkap AI & E-Katalog 2025</p>
+                    </div>
+                    <div class="preview-stat-card">
+                        <span class="preview-stat-icon">⚖️</span>
+                        <strong>Kekuatan & Kekurangan</strong>
+                        <p>Analisis mendalam sistem UMKM</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAFTAR FITUR (Menggunakan CSS Grid & Interactive Cards) -->
+        <section id="fitur" class="decorated-section">
+            <div class="section-ornament"></div>
+            <div class="section-header">
+                <span class="section-badge highlight-badge">⚡ Fitur Utama & E-Katalog</span>
+                <h2>Fitur Utama & Keunggulan Program</h2>
+                <p>Klik salah satu kartu di bawah ini untuk melihat detail fitur interaktif.</p>
+            </div>
+
+            <div class="fitur-grid">
+                <div class="fitur-card tilt-effect" onclick="window.location.href='ekatalog.html'" style="cursor: pointer;">
+                    <span class="card-tag">Fitur 01</span>
+                    <div class="fitur-icon">🛍️</div>
+                    <h3>E-Katalog Interaktif</h3>
+                    <p>Menampilkan katalog produk UMKM secara digital lengkap dengan foto, deskripsi, harga, dan kontak pemesanan.</p>
+                    <div class="card-footer-action" style="color: #27ae60; font-weight: 800;">Buka Halaman E-Katalog &rarr;</div>
+                </div>
+
+                <div class="fitur-card tilt-effect">
+                    <span class="card-tag">Fitur 02</span>
+                    <div class="fitur-icon">🤖</div>
+                    <h3>Bantuan AI Konten</h3>
+                    <p>Memanfaatkan kecerdasan buatan untuk pembuatan promosi, narasi produk, dan strategi konten secara efisien.</p>
+                    <div class="card-footer-action">Detail Fitur &rarr;</div>
+                </div>
+
+                <div class="fitur-card tilt-effect">
+                    <span class="card-tag">Fitur 03</span>
+                    <div class="fitur-icon">📈</div>
+                    <h3>Pemasaran Digital</h3>
+                    <p>Memperluas jangkauan pasar UMKM hingga luar wilayah desa dengan integrasi media digital.</p>
+                    <div class="card-footer-action">Detail Fitur &rarr;</div>
+                </div>
+
+                <div class="fitur-card tilt-effect">
+                    <span class="card-tag">Fitur 04</span>
+                    <div class="fitur-icon">💡</div>
+                    <h3>Edukasi & Pendampingan</h3>
+                    <p>Pelatihan berkala bagi pelaku usaha desa untuk meningkatkan pemahaman teknologi digital.</p>
+                    <div class="card-footer-action">Detail Fitur &rarr;</div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FORM DAN INPUT (Dengan Label Jelas, Focus State, & Quick Presets) -->
+        <section id="kontak" class="decorated-section">
+            <div class="section-ornament"></div>
+            <div class="section-header">
+                <span class="section-badge">📝 Form Pendaftaran & Konsultasi</span>
+                <h2>Form Konsultasi & Pendaftaran UMKM</h2>
+            </div>
+
+            <!-- Quick Presets Interaktif -->
+            <div class="quick-preset-container">
+                <span class="preset-title">💡 Contoh Isi Cepat:</span>
+                <button type="button" class="preset-btn" data-nama="Budi Santoso" data-umkm="Keripik Singkong Paseban" data-email="budi@paseban.id" data-tel="081234567890" data-kat="kuliner" data-pesan="Ingin mendaftarkan produk keripik singkong ke dalam e-katalog desa.">🍱 UMKM Kuliner</button>
+                <button type="button" class="preset-btn" data-nama="Siti Rahma" data-umkm="Batik Tulis Kawis" data-email="siti@paseban.id" data-tel="085712345678" data-kat="kerajinan" data-pesan="Membutuhkan bantuan AI untuk menulis deskripsi promosi produk batik.">🎨 UMKM Kerajinan</button>
+            </div>
+
+            <form class="umkm-form" onsubmit="event.preventDefault();">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nama-pemilik">Nama Pemilik Usaha <span class="required">*</span></label>
+                        <input type="text" id="nama-pemilik" name="nama-pemilik" placeholder="Contoh: Budi Santoso" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nama-umkm">Nama Usaha / UMKM <span class="required">*</span></label>
+                        <input type="text" id="nama-umkm" name="nama-umkm" placeholder="Contoh: Keripik Paseban Berkah" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Alamat Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="nama@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telepon">Nomor WhatsApp / HP <span class="required">*</span></label>
+                        <input type="tel" id="telepon" name="telepon" placeholder="081234567890" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="kategori">Kategori Produk <span class="required">*</span></label>
+                        <select id="kategori" name="kategori" required>
+                            <option value="" disabled selected>-- Pilih Kategori Produk --</option>
+                            <option value="kuliner">Kuliner & Makanan Olahan</option>
+                            <option value="kerajinan">Kerajinan Tangan & Kriya</option>
+                            <option value="pertanian">Hasil Pertanian & Perkebunan</option>
+                            <option value="jasa">Jasa & Usaha Kreatif</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="pesan">Deskripsi Usaha / Pesan <span class="required">*</span></label>
+                        <textarea id="pesan" name="pesan" rows="4" placeholder="Jelaskan secara singkat mengenai produk atau bantuan yang dibutuhkan..." required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-action">
+                    <button type="submit" class="btn-submit">Kirim Pendaftaran</button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            &copy; 2026 | Digitalisasi UMKM Desa Paseban Kawis &bull; <a href="jurnal.html" style="color: #fcd779; text-decoration: none;">Halaman Jurnal</a>
+        </p>
+    </footer>
+
+</body>
+</html>

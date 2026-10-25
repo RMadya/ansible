@@ -1,0 +1,25 @@
+{
+  "name": "api-paseban-umkm",
+  "version": "1.0.0",
+  "description": "Backend API RESTful Node.js untuk Database MySQL E-Katalog UMKM Desa Paseban Kawis",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "express",
+    "mysql",
+    "api",
+    "umkm",
+    "e-katalog"
+  ],
+  "author": "Kelompok 2 - Kelas E",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.9.7"
+  }
+}

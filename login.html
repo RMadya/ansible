@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - E-Katalog UMKM Desa Paseban Kawis</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+
+    <div class="login-wrapper">
+        <!-- Kartu Login Glassmorphism -->
+        <div class="login-card">
+            <div class="login-header">
+                <a href="index.html" class="login-logo" title="Kembali ke Beranda">
+                    <span class="logo-emoji">🌿</span>
+                    <div class="logo-text-group">
+                        <span class="logo-title">Paseban Kawis</span>
+                        <span class="logo-subtitle">UMKM & AI Center</span>
+                    </div>
+                </a>
+                <h1 class="login-title">Portal Masuk Admin</h1>
+                <p class="login-desc">Silakan autentikasi untuk mengelola data UMKM & produk E-Katalog.</p>
+            </div>
+
+            <!-- Area Notifikasi Alert -->
+            <div id="loginAlert" class="alert-box d-none" role="alert"></div>
+
+            <form id="adminLoginForm" class="login-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="adminUsername">Username</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="adminUsername" name="username" placeholder="Masukkan username admin" required autofocus>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminPassword">Kata Sandi</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="adminPassword" name="password" placeholder="Masukkan kata sandi" required>
+                        <button type="button" id="togglePasswordBtn" class="btn-toggle-eye" title="Lihat/Sembunyikan Sandi" aria-label="Lihat kata sandi">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-row-remember">
+                    <label class="remember-checkbox">
+                        <input type="checkbox" id="rememberMe">
+                        <span>Ingat sesi saya</span>
+                    </label>
+                    <span class="badge-role">🔐 Akses Khusus</span>
+                </div>
+
+                <button type="submit" id="submitLoginBtn" class="btn-login-submit">
+                    <span class="btn-text">Masuk ke Panel Admin</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </form>
+
+            <!-- Keterangan Akun Demo Bawaan -->
+            <div class="login-demo-hint">
+                <div class="demo-badge">ℹ️ Akun Bawaan Sistem</div>
+                <p>Username: <code>admin</code> &nbsp;|&nbsp; Password: <code>admin123</code></p>
+            </div>
+
+            <div class="login-footer">
+                <a href="index.html" class="back-link">
+                    &larr; Kembali ke Beranda Utama
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Autentikasi Frontend -->
+    <script>
+        // Toggle lihat sandi
+        const toggleBtn = document.getElementById('togglePasswordBtn');
+        const passInput = document.getElementById('adminPassword');
+        toggleBtn.addEventListener('click', () => {
+            const isPassword = passInput.type === 'password';
+            passInput.type = isPassword ? 'text' : 'password';
+            toggleBtn.textContent = isPassword ? '🙈' : '👁️';
+        });
+
+        // Submit form login
+        const form = document.getElementById('adminLoginForm');
+        const alertBox = document.getElementById('loginAlert');
+        const submitBtn = document.getElementById('submitLoginBtn');
+
+        function showAlert(msg, isError = true) {
+            alertBox.className = `alert-box ${isError ? 'alert-danger' : 'alert-success'}`;
+            alertBox.textContent = msg;
+            alertBox.classList.remove('d-none');
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            alertBox.classList.add('d-none');
+
+            const username = document.getElementById('adminUsername').value.trim();
+            const password = passInput.value;
+
+            if (!username || !password) {
+                showAlert('Username dan kata sandi wajib diisi!');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="btn-text">Memproses verifikasi...</span>';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showAlert('Berhasil masuk! Mengalihkan ke dashboard...', false);
+                    localStorage.setItem('umkm_admin_token', data.token);
+                    localStorage.setItem('umkm_admin_user', JSON.stringify(data.user));
+
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 800);
+                } else {
+                    showAlert(data.message || 'Username atau kata sandi tidak valid!');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span class="btn-text">Masuk ke Panel Admin</span><span class="btn-icon">→</span>';
+                }
+            } catch (err) {
+                showAlert('Gagal terhubung ke server. Pastikan server aktif!');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="btn-text">Masuk ke Panel Admin</span><span class="btn-icon">→</span>';
+            }
+        });
+
+        // Auto-redirect jika sudah memiliki token sesi aktif
+        if (localStorage.getItem('umkm_admin_token')) {
+            // Berikan opsi langsung lompat
+            const hint = document.querySelector('.login-desc');
+            if (hint) {
+                hint.innerHTML += '<br><a href="admin.html" style="color:#52b788;font-weight:700;display:inline-block;margin-top:6px;">⚡ Anda sudah login. Buka Panel Admin &rarr;</a>';
+            }
+        }
+    </script>
+</body>
+</html>
